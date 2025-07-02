@@ -3,8 +3,6 @@ package de.aropix.mcs2mqtt;
 import de.aropix.mcs2mqtt.hooks.PrivacyModal;
 import de.aropix.mcs2mqtt.hooks.SerialDataHook;
 import de.robv.android.xposed.IXposedHookLoadPackage;
-import de.robv.android.xposed.XSharedPreferences;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class MainHook implements IXposedHookLoadPackage {
