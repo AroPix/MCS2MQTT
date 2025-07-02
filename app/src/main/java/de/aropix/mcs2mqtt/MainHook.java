@@ -22,6 +22,8 @@ public class MainHook implements IXposedHookLoadPackage {
         XSharedPreferences prefs = new XSharedPreferences("de.aropix.mcs2mqtt", "mqtt_settings");
         prefs.reload();
 
+        // @todo implement retrieval of preferences
+        // Override these strings or change the default value to your liking
         String hostname = prefs.getString("mqtt_host", "localhost");
         String port = prefs.getString("mqtt_port", "1883");
         String username = prefs.getString("mqtt_username", "");
