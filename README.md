@@ -17,3 +17,11 @@ Another requirement is Homeassistant with a MQTT server set up, when you have do
 In the end it should look like this:
 
 ![hass_screenshot.png](hass_screenshot.png)
+
+## Features
+
+- [x] Implement listener for serial data
+- [x] Send data to MQTT
+- [ ] Implement saving of MQTT preferences
+- [ ] Hook button inside MC-App to show the module settings
+- [ ] Add utilities inside module settings
