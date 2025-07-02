@@ -1,5 +1,6 @@
 package de.aropix.mcs2mqtt;
 
+import de.aropix.mcs2mqtt.hooks.GetRecipeHook;
 import de.aropix.mcs2mqtt.hooks.PrivacyModal;
 import de.aropix.mcs2mqtt.hooks.SerialDataHook;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -12,6 +13,7 @@ public class MainHook implements IXposedHookLoadPackage {
 
         SerialDataHook.initHook(lpparam);
         PrivacyModal.initHook(lpparam.classLoader);
+        GetRecipeHook.initHook(lpparam.classLoader);
 
 
     }
