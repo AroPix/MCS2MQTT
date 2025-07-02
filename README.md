@@ -25,5 +25,5 @@ In the end it should look like this:
 - [x] Implement listener for serial data
 - [x] Send data to MQTT
 - [ ] Implement saving of MQTT preferences
-- [ ] Hook button inside MC-App to show the module settings
+- [x] Hook button inside MC-App to show the module settings
 - [ ] Add utilities inside module settings
