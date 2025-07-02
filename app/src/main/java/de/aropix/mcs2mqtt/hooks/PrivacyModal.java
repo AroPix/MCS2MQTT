@@ -10,7 +10,7 @@ public class PrivacyModal {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 XposedBridge.log("Blocked privacy policy modal (D0)");
-                param.setResult(null); // Prevent it from running
+                param.setResult(null);
             }
         });
     }
