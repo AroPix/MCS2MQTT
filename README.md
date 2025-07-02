@@ -20,6 +20,9 @@ In the end it should look like this:
 
 ![hass_screenshot.png](hass_screenshot.png)
 
+Clicking the privacy policy inside the main menu will open the module app:
+![module_settings.png](module_settings.png)
+
 ## Features
 
 - [x] Implement listener for serial data
