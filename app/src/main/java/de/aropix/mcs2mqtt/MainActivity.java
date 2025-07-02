@@ -1,8 +1,10 @@
 package de.aropix.mcs2mqtt;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -40,6 +42,32 @@ public class MainActivity extends AppCompatActivity {
         mqttPassword = findViewById(R.id.mqtt_password);
         saveButton = findViewById(R.id.save_button);
         killMCSButton = findViewById(R.id.kill_mcs_app);
+        Button startMCSButton = findViewById(R.id.start_mcs_app);
+
+        Button openFactoryMode = findViewById(R.id.open_factory_mode);
+        Button openSettings = findViewById(R.id.open_settings);
+        Button openLsposed = findViewById(R.id.open_lsposed);
+        Button openMagisk = findViewById(R.id.open_magisk);
+
+        openFactoryMode.setOnClickListener(v -> {
+            launchAppByPackageName(v.getContext(), "com.discovery.factorymode");
+        });
+
+        openSettings.setOnClickListener(v -> {
+            launchAppByPackageName(v.getContext(), "com.android.settings");
+        });
+
+        openLsposed.setOnClickListener(v -> {
+            launchAppByPackageName(v.getContext(), "org.lsposed.manager");
+        });
+
+        openMagisk.setOnClickListener(v -> {
+            launchAppByPackageName(v.getContext(), "com.topjohnwu.magisk");
+        });
+
+        startMCSButton.setOnClickListener(v -> {
+            launchAppByPackageName(v.getContext(), "com.tecpal.device.mc30");
+        });
 
 
         loadPreferences();
@@ -93,8 +121,24 @@ public class MainActivity extends AppCompatActivity {
             os.close();
             su.waitFor();
         } catch (Exception e) {
-            // Log only, don't rethrow
             e.printStackTrace();
+        }
+    }
+
+    public static void launchAppByPackageName(Context context, String packageName) {
+        if (context == null || packageName == null || packageName.isEmpty()) {
+            return;
+        }
+        try {
+            Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+            if (intent != null) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            } else {
+                Log.e("LaunchApp", "Cannot find launch intent for package: " + packageName);
+            }
+        } catch (Exception e) {
+            Log.e("LaunchApp", "Failed to launch package: " + packageName, e);
         }
     }
 }
