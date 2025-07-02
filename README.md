@@ -15,4 +15,5 @@ https://github.com/EliasKotlyar/Monsieur-Cuisine-Connect-Hack/issues/38#issuecom
 Another requirement is Homeassistant with a MQTT server set up, when you have done that correctly and everything is configured properly and you launch the Monsieur Cuisine App it will start sending data to MQTT server, where Homeassistant will automatically discover it.
 
 In the end it should look like this:
+
 ![hass_screenshot.png](hass_screenshot.png)
