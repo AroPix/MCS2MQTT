@@ -2,7 +2,9 @@ package de.aropix.mcs2mqtt.hooks;
 
 import static de.aropix.mcs2mqtt.ConfigHandler.getSettings;
 import static de.aropix.mcs2mqtt.ConfigHandler.saveSettings;
+import static de.aropix.mcs2mqtt.MainActivity.launchAppByPackageName;
 
+import android.app.AndroidAppHelper;
 import android.graphics.Bitmap;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -63,6 +65,11 @@ public class CustomHTML {
                                 public String getSettingsHTML() throws JSONException, IOException {
                                     Settings settings = getSettings();
                                     return settings.getHost() + "," + settings.getPort() + "," + settings.getUser() + "," + settings.getPass();
+                                }
+
+                                @JavascriptInterface
+                                public void launchApplication(String package_name) {
+                                    launchAppByPackageName(AndroidAppHelper.currentApplication().getApplicationContext(), package_name);
                                 }
 
 
