@@ -18,10 +18,10 @@ Another requirement is Homeassistant with a MQTT server set up, when you have do
 
 In the end it should look like this:
 
-![hass_screenshot.png](hass_screenshot.png)
+![hass_screenshot.png](docs/hass_screenshot.png)
 
 Clicking the privacy policy inside the main menu will open the module app:
-![module_settings.png](module_settings.png)
+![module_settings.png](docs/module_settings.png)
 
 ## Features
 
@@ -37,12 +37,12 @@ Either open the MCS2MQTT app on your Monsieur Cuisine or do the following:
 
 Go to the account page first:
 
-![account.png](account.png)
+![account.png](docs/account.png)
 
 Then click on account settings:
 
-![account_settings.png](account_settings.png)
+![account_settings.png](docs/account_settings.png)
 
 Change the settings and click on save, then kill the Monsieur Cuisine app and start it again:
 
-![settings_overview.png](settings_overview.png)
+![settings_overview.png](docs/settings_overview.png)
