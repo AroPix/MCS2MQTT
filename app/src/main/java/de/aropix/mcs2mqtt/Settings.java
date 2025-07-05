@@ -1,5 +1,8 @@
 package de.aropix.mcs2mqtt;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Settings {
     String host = "localhost";
     String port = "1883";
@@ -45,5 +48,19 @@ public class Settings {
 
     public void setHost(String host) {
         this.host = host;
+    }
+
+    public String toJsonString() {
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("host", host);
+            obj.put("port", port);
+            obj.put("user", user);
+            obj.put("pass", pass);
+            obj.put("showWelcomePopup", showWelcomePopup);
+            return obj.toString();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

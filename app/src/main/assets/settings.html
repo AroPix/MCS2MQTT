@@ -92,28 +92,30 @@
     }
     </style>
     <script>
+        let settings = {}; // global
+
         window.onload = function () {
             try {
-                let settings = AndroidBridge.getSettingsHTML().split(",");
-                let [host, port, user, pass, showWelcomePopup] = settings;
+                settings = JSON.parse(AndroidBridge.getSettingsHTML());
 
-                document.getElementById("hostname").value = host;
-                document.getElementById("port").value = port;
-                document.getElementById("username").value = user;
-                document.getElementById("password").value = pass;
-                document.getElementById("show_welcome_popup").checked = showWelcomePopup === true || showWelcomePopup === "true" || showWelcomePopup === "1";
+                document.getElementById("hostname").value = settings.host;
+                document.getElementById("port").value = settings.port;
+                document.getElementById("username").value = settings.user;
+                document.getElementById("password").value = settings.pass;
+                document.getElementById("show_welcome_popup").checked = settings.showWelcomePopup === true;
             } catch (e) {
                 console.error("Failed to load settings", e);
             }
         }
 
         function save() {
-            const hostname = document.getElementById("hostname").value;
-            const port = document.getElementById("port").value;
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-            const show_welcome_popup = document.getElementById("show_welcome_popup").checked.toString();
-            AndroidBridge.saveSettingsHTML(hostname, port, username, password, show_welcome_popup);
+            settings.host = document.getElementById("hostname").value;
+            settings.port = document.getElementById("port").value;
+            settings.user = document.getElementById("username").value;
+            settings.pass = document.getElementById("password").value;
+            settings.showWelcomePopup = document.getElementById("show_welcome_popup").checked;
+
+            AndroidBridge.saveSettingsHTML(JSON.stringify(settings));
         }
 
         function pingDevice() {
@@ -127,9 +129,6 @@
         function launchApplication(package_name) {
             AndroidBridge.launchApplication(package_name);
         }
-
-
-
     </script>
 </head>
 <body>
@@ -155,7 +154,7 @@
         <input type="password" id="password">
 
         <label>
-            <input type="checkbox" id="show_welcome_popup"> Show welcome Popup (WIP, not working yet)
+            <input type="checkbox" id="show_welcome_popup"> Show welcome Popup
         </label>
 
         <button class="save" onclick="save()">Save</button>

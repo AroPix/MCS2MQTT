@@ -10,6 +10,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -55,17 +56,23 @@ public class CustomHTML {
 
                             webView.addJavascriptInterface(new Object() {
 
-
                                 @JavascriptInterface
-                                public void saveSettingsHTML(String host, String port, String username, String password, String showWelcomePopup) throws JSONException {
-                                    Boolean welcomePopup = "true".equals(showWelcomePopup);
-                                    saveSettings(host, port, username, password, welcomePopup);
+                                public void saveSettingsHTML(String jsonStr) throws JSONException {
+                                    JSONObject obj = new JSONObject(jsonStr);
+
+                                    String host = obj.optString("host", "localhost");
+                                    String port = obj.optString("port", "1883");
+                                    String username = obj.optString("user", "");
+                                    String password = obj.optString("pass", "");
+                                    boolean showWelcomePopup = obj.optBoolean("showWelcomePopup", true);
+
+                                    saveSettings(host, port, username, password, showWelcomePopup);
                                 }
 
                                 @JavascriptInterface
                                 public String getSettingsHTML() throws JSONException, IOException {
                                     Settings settings = getSettings();
-                                    return settings.getHost() + "," + settings.getPort() + "," + settings.getUser() + "," + settings.getPass() + "," + settings.getShowWelcomePopup().toString();
+                                    return settings.toJsonString();
                                 }
 
                                 @JavascriptInterface
