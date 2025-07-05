@@ -70,17 +70,19 @@ public class MqttHandler {
                 + "\"state_topic\": \""+ data_topic + "\","
                 + "\"value_template\": \"{{ value_json." + key + " }}\","
                 + "\"device_class\": " + deviceClass + ","
-                + "\"unique_id\": \"" + id + "\","
-                + "\"device\": {"
+                + "\"unique_id\": \"" + id + "\",";
+
+
+        if (unit != "") {
+            payload += "\"unit_of_measurement\": \"" + unit + "\",";
+        }
+
+
+        payload += "\"device\": {"
                 + "\"identifiers\": [\"mcs\"],"
                 + "\"name\": \"MCS\","
                 + "\"model\": \"Monsieur Cuisine Smart\","
                 + "\"manufacturer\": \"Silvercrest\"";
-
-
-        if (unit != "") {
-            payload += ",\"unit_of_measurement\": \"" + unit + "\"";
-        }
 
         payload += "}";
         payload += "}";
