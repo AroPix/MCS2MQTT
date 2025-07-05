@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         saveButton.setOnClickListener(v -> {
             try {
-                saveSettings(mqttHost.getText().toString(), mqttPort.getText().toString(), mqttUsername.getText().toString(), mqttPassword.getText().toString(), settings.getShowWelcomePopup());
+                saveSettings(mqttHost.getText().toString(), mqttPort.getText().toString(), mqttUsername.getText().toString(), mqttPassword.getText().toString(), settings.getShowWelcomePopup(), settings.getSendRecipeToMQTT());
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }

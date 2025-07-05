@@ -22,12 +22,13 @@ public class ConfigHandler {
             if (obj.has("user")) settings.setUser(obj.getString("user"));
             if (obj.has("pass")) settings.setPass(obj.getString("pass"));
             if (obj.has("showWelcomePopup")) settings.setShowWelcomePopup(obj.getBoolean("showWelcomePopup"));
+            if (obj.has("sendRecipeToMQTT")) settings.setSendRecipeToMQTT(obj.getBoolean("sendRecipeToMQTT"));
 
         }
         return settings;
     }
 
-    public static void saveSettings(String host, String port, String username, String password, Boolean showWelcomePopup) throws JSONException {
+    public static void saveSettings(String host, String port, String username, String password, Boolean showWelcomePopup, Boolean sendRecipeToMQTT) throws JSONException {
         File file = new File(Environment.getExternalStorageDirectory(), "mcs2mqtt_config.json");
         JSONObject json = new JSONObject();
         json.put("host", host);
@@ -35,6 +36,7 @@ public class ConfigHandler {
         json.put("user", username);
         json.put("pass", password);
         json.put("showWelcomePopup", showWelcomePopup);
+        json.put("sendRecipeToMQTT", sendRecipeToMQTT);
         try (FileWriter writer = new FileWriter(file)) {
             writer.write(json.toString());
         } catch (IOException e) {

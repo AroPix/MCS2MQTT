@@ -25,9 +25,14 @@ public class MainHook implements IXposedHookLoadPackage {
 
         SerialDataHook.initHook(lpparam, mqtt);
         PrivacyModal.initHook(lpparam.classLoader);
-        GetRecipeHook.initHook(lpparam.classLoader, mqtt);
+        if (settings.getSendRecipeToMQTT()) {
+            GetRecipeHook.initHook(lpparam.classLoader, mqtt);
+        }
+
         CustomHTML.initHook(lpparam.classLoader);
-        WelcomePopupHook.initHook(lpparam.classLoader);
+
+        if (!settings.getShowWelcomePopup())
+            WelcomePopupHook.initHook(lpparam.classLoader);
         //GetModeHook.initHook(lpparam.classLoader);
 
     }

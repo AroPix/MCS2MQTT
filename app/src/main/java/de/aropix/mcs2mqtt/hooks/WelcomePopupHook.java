@@ -17,9 +17,8 @@ public class WelcomePopupHook {
     public static void initHook(ClassLoader classLoader) {
         XposedHelpers.findAndHookMethod("a.g.a.n.h.v", classLoader, "W0", new XC_MethodHook() {
             @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws JSONException, IOException {
-                if (!getSettings().getShowWelcomePopup())
-                    param.setThrowable(null);
+            protected void beforeHookedMethod(MethodHookParam param) {
+                param.setThrowable(null);
             }
         });
 

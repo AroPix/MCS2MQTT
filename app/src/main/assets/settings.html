@@ -103,6 +103,7 @@
                 document.getElementById("username").value = settings.user;
                 document.getElementById("password").value = settings.pass;
                 document.getElementById("show_welcome_popup").checked = settings.showWelcomePopup === true;
+                document.getElementById("send_recipe_to_mqtt").checked = settings.sendRecipeToMQTT === true;
             } catch (e) {
                 console.error("Failed to load settings", e);
             }
@@ -114,6 +115,7 @@
             settings.user = document.getElementById("username").value;
             settings.pass = document.getElementById("password").value;
             settings.showWelcomePopup = document.getElementById("show_welcome_popup").checked;
+            settings.sendRecipeToMQTT = document.getElementById("send_recipe_to_mqtt").checked;
 
             AndroidBridge.saveSettingsHTML(JSON.stringify(settings));
         }
@@ -155,6 +157,10 @@
 
         <label>
             <input type="checkbox" id="show_welcome_popup"> Show welcome Popup
+        </label>
+
+        <label>
+            <input type="checkbox" id="send_recipe_to_mqtt"> Send recipe to MQTT
         </label>
 
         <button class="save" onclick="save()">Save</button>

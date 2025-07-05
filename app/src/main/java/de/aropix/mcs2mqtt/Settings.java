@@ -9,6 +9,16 @@ public class Settings {
     String user = "";
     String pass = "";
     Boolean showWelcomePopup = true;
+    Boolean sendRecipeToMQTT = true;
+
+    public Boolean getSendRecipeToMQTT() {
+        return sendRecipeToMQTT;
+    }
+
+    public void setSendRecipeToMQTT(Boolean sendRecipeToMQTT) {
+        this.sendRecipeToMQTT = sendRecipeToMQTT;
+    }
+
 
     public Boolean getShowWelcomePopup() {
         return showWelcomePopup;
@@ -58,6 +68,7 @@ public class Settings {
             obj.put("user", user);
             obj.put("pass", pass);
             obj.put("showWelcomePopup", showWelcomePopup);
+            obj.put("sendRecipeToMQTT", sendRecipeToMQTT);
             return obj.toString();
         } catch (JSONException e) {
             throw new RuntimeException(e);

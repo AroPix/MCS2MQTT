@@ -65,8 +65,9 @@ public class CustomHTML {
                                     String username = obj.optString("user", "");
                                     String password = obj.optString("pass", "");
                                     boolean showWelcomePopup = obj.optBoolean("showWelcomePopup", true);
+                                    boolean sendRecipeToMQTT = obj.optBoolean("sendRecipeToMQTT", true);
 
-                                    saveSettings(host, port, username, password, showWelcomePopup);
+                                    saveSettings(host, port, username, password, showWelcomePopup, sendRecipeToMQTT);
                                 }
 
                                 @JavascriptInterface
