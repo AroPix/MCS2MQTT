@@ -2,12 +2,13 @@ package de.aropix.mcs2mqtt.hooks;
 
 import java.util.List;
 
+import de.aropix.mcs2mqtt.MqttHandler;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 public class GetRecipeHook {
-    public static void initHook(ClassLoader classLoader) throws ClassNotFoundException {
+    public static void initHook(ClassLoader classLoader, MqttHandler mqtt) throws ClassNotFoundException {
         XposedHelpers.findAndHookMethod(
                 "com.tecpal.device.fragments.guidecook.presenter.GuidedCookRecipePresenter$b",
                 classLoader,
@@ -84,6 +85,16 @@ public class GetRecipeHook {
                         XposedBridge.log("Duration: " + duration);
                         XposedBridge.log("Progress: " + progress);
                         XposedBridge.log("---------------------");
+
+                        String payload = "{"
+                                + "\"recipe_name\": \"" + name + "\""
+                                //+ "\"weight\": " + data.getWeight() + ", "
+                                //+ "\"time\": " + time + ", "
+                                //+ "\"speed\": " + data.getSpeed() + ", "
+                                //+ "\"running\": " + data.getIdleness()
+                                + "}";
+
+                        mqtt.sendPayload(payload, "mcs/recipe");
 
 
                     }

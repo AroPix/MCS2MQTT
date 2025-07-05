@@ -2,6 +2,7 @@ package de.aropix.mcs2mqtt.hooks;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Objects;
 
 import de.aropix.mcs2mqtt.MqttHandler;
 import de.aropix.mcs2mqtt.SerialData;
@@ -16,21 +17,8 @@ public class SerialDataHook {
     private static long lastTimeStamp = 0;
     private static long lastMillis = 0;
 
-    public static void initHook(final XC_LoadPackage.LoadPackageParam lpparam) {
+    public static void initHook(final XC_LoadPackage.LoadPackageParam lpparam, MqttHandler mqtt) {
         try {
-            XSharedPreferences prefs = new XSharedPreferences("de.aropix.mcs2mqtt", "mqtt_settings");
-            prefs.reload();
-
-            // @todo implement retrieval of preferences
-            // Override these strings or change the default value to your liking
-            String hostname = prefs.getString("mqtt_host", "localhost");
-            String port = prefs.getString("mqtt_port", "1883");
-            String username = prefs.getString("mqtt_username", "");
-            String password = prefs.getString("mqtt_password", "");
-            XposedBridge.log("Hostname: " + hostname + " | Username: " + username);
-
-            MqttHandler mqtt = new MqttHandler(hostname, port, username, password);
-
             Class<?> listenerServiceClass = XposedHelpers.findClass("a.g.a.t.g.m", lpparam.classLoader);
             Object listenerServiceInstance = XposedHelpers.callStaticMethod(listenerServiceClass, "r");
 
@@ -102,6 +90,19 @@ public class SerialDataHook {
     }
 
     private static void sendMQTT(SerialData data, MqttHandler mqtt) {
-        mqtt.sendPayload(data);
+        String time;
+        if (!Objects.equals(data.getTimeString(), "null")) {
+            time = "\"" + data.getTimeString() + "\"";
+        } else {
+            time = data.getTimeString();
+        }
+        String payload = "{"
+                + "\"temp\": " + data.getTemp() + ", "
+                + "\"weight\": " + data.getWeight() + ", "
+                + "\"time\": " + time + ", "
+                + "\"speed\": " + data.getSpeed() + ", "
+                + "\"running\": " + data.getIdleness()
+                + "}";
+        mqtt.sendPayload(payload, "mcs/data");
     }
 }

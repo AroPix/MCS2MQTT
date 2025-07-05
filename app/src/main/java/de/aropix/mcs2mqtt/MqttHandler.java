@@ -38,25 +38,9 @@ public class MqttHandler {
                 });
     }
 
-    public void sendPayload(SerialData data) {
-
-        String time;
-        if (!Objects.equals(data.getTimeString(), "null")) {
-            time = "\"" + data.getTimeString() + "\"";
-        } else {
-            time = data.getTimeString();
-        }
-        // {output=null, temp=0, weight=1430, time=0, speed=0}
-        String payload = "{"
-                + "\"temp\": " + data.getTemp() + ", "
-                + "\"weight\": " + data.getWeight() + ", "
-                + "\"time\": " + time + ", "
-                + "\"speed\": " + data.getSpeed() + ", "
-                + "\"running\": " + data.getIdleness()
-                + "}";
-
+    public void sendPayload(String payload, String topic) {
         client.publishWith()
-                .topic("mcs/data")
+                .topic(topic)
                 .payload(payload.getBytes(StandardCharsets.UTF_8))
                 .qos(MqttQos.AT_MOST_ONCE)
                 .send()
@@ -70,6 +54,9 @@ public class MqttHandler {
     }
 
     private void publishDiscoveryConfig(String id, String key, String unit, String deviceClass, String sensorType) {
+        this.publishDiscoveryConfig(id, key, unit, deviceClass, sensorType, "mcs/data");
+    }
+    private void publishDiscoveryConfig(String id, String key, String unit, String deviceClass, String sensorType, String data_topic) {
         String topic = "homeassistant/" + sensorType + "/" + id + "/config";
 
         if (!Objects.equals(deviceClass, "")) {
@@ -80,8 +67,7 @@ public class MqttHandler {
 
         String payload = "{"
                 + "\"name\": \"MCS " + key + "\","
-                + "\"state_topic\": \"mcs/data\","
-                + "\"unit_of_measurement\": \"" + unit + "\","
+                + "\"state_topic\": \""+ data_topic + "\","
                 + "\"value_template\": \"{{ value_json." + key + " }}\","
                 + "\"device_class\": " + deviceClass + ","
                 + "\"unique_id\": \"" + id + "\","
@@ -89,9 +75,15 @@ public class MqttHandler {
                 + "\"identifiers\": [\"mcs\"],"
                 + "\"name\": \"MCS\","
                 + "\"model\": \"Monsieur Cuisine Smart\","
-                + "\"manufacturer\": \"Silvercrest\""
-                + "}"
-                + "}";
+                + "\"manufacturer\": \"Silvercrest\"";
+
+
+        if (unit != "") {
+            payload += ",\"unit_of_measurement\": \"" + unit + "\"";
+        }
+
+        payload += "}";
+        payload += "}";
 
         client.publishWith()
                 .topic(topic)
@@ -143,12 +135,15 @@ public class MqttHandler {
     }
 
 
+
+
     private void createConfiguration() {
         publishDiscoveryConfig("mcs_speed", "speed", "", "", "sensor");
         publishDiscoveryConfig("mcs_weight", "weight", "g", "weight", "sensor");
         publishDiscoveryConfig("mcs_time", "time", "", "timestamp", "sensor");
         //publishDiscoveryConfig("mcs_data", "data", "", "");
         publishDiscoveryConfig("mcs_temp", "temp", "°C", "temperature", "sensor");
+        publishDiscoveryConfig("mcs_recipe_name", "recipe_name", "", "", "sensor", "mcs/recipe");
         publishBinarySensorDiscoveryConfig();
     }
 }
