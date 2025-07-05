@@ -10,8 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import de.robv.android.xposed.XposedBridge;
-
 public class ConfigHandler {
     public static Settings getSettings() throws JSONException, IOException {
         Settings settings = new Settings();
@@ -19,21 +17,24 @@ public class ConfigHandler {
         if (file.exists()) {
             String jsonStr = new String(Files.readAllBytes(file.toPath()));
             JSONObject obj = new JSONObject(jsonStr);
-            settings.setHost(obj.getString("host"));
-            settings.setPort(obj.getString("port"));
-            settings.setUser(obj.getString("user"));
-            settings.setPass(obj.getString("pass"));
+            if (obj.has("host")) settings.setHost(obj.getString("host"));
+            if (obj.has("port")) settings.setPort(obj.getString("port"));
+            if (obj.has("user")) settings.setUser(obj.getString("user"));
+            if (obj.has("pass")) settings.setPass(obj.getString("pass"));
+            if (obj.has("showWelcomePopup")) settings.setShowWelcomePopup(obj.getBoolean("showWelcomePopup"));
+
         }
         return settings;
     }
 
-    public static void saveSettings(String host, String port, String username, String password) throws JSONException {
+    public static void saveSettings(String host, String port, String username, String password, Boolean showWelcomePopup) throws JSONException {
         File file = new File(Environment.getExternalStorageDirectory(), "mcs2mqtt_config.json");
         JSONObject json = new JSONObject();
         json.put("host", host);
         json.put("port", port);
         json.put("user", username);
         json.put("pass", password);
+        json.put("showWelcomePopup", showWelcomePopup);
         try (FileWriter writer = new FileWriter(file)) {
             writer.write(json.toString());
         } catch (IOException e) {

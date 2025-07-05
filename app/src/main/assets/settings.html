@@ -72,16 +72,22 @@
         }
 
         input {
-        border: 1px solid #ccc;
-        background-color: #222;
-        color: white;
-        padding: 5px;
+            border: 1px solid #ccc;
+            background-color: #222;
+            color: white;
+            padding: 5px;
         }
 
         input:focus {
-        outline: none;
-        border: 1px solid cyan;
-        box-shadow: 0 0 5px cyan;
+            outline: none;
+            border: 1px solid cyan;
+            box-shadow: 0 0 5px cyan;
+        }
+        .sidebar button:focus,
+        button.save:focus {
+            outline: none;
+            border: 1px solid cyan;
+            box-shadow: 0 0 5px cyan;
         }
     }
     </style>
@@ -89,12 +95,13 @@
         window.onload = function () {
             try {
                 let settings = AndroidBridge.getSettingsHTML().split(",");
-                let [host, port, user, pass] = settings;
+                let [host, port, user, pass, showWelcomePopup] = settings;
 
                 document.getElementById("hostname").value = host;
                 document.getElementById("port").value = port;
                 document.getElementById("username").value = user;
                 document.getElementById("password").value = pass;
+                document.getElementById("show_welcome_popup").checked = showWelcomePopup === true || showWelcomePopup === "true" || showWelcomePopup === "1";
             } catch (e) {
                 console.error("Failed to load settings", e);
             }
@@ -105,7 +112,8 @@
             const port = document.getElementById("port").value;
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
-            AndroidBridge.saveSettingsHTML(hostname, port, username, password);
+            const show_welcome_popup = document.getElementById("show_welcome_popup").checked.toString();
+            AndroidBridge.saveSettingsHTML(hostname, port, username, password, show_welcome_popup);
         }
 
         function pingDevice() {
@@ -147,7 +155,7 @@
         <input type="password" id="password">
 
         <label>
-            <input type="checkbox" id="disable_welcome_popup"> Disable Welcome Popup (WIP, not working yet)
+            <input type="checkbox" id="show_welcome_popup"> Show welcome Popup (WIP, not working yet)
         </label>
 
         <button class="save" onclick="save()">Save</button>

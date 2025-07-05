@@ -57,14 +57,15 @@ public class CustomHTML {
 
 
                                 @JavascriptInterface
-                                public void saveSettingsHTML(String host, String port, String username, String password) throws JSONException {
-                                    saveSettings(host, port, username, password);
+                                public void saveSettingsHTML(String host, String port, String username, String password, String showWelcomePopup) throws JSONException {
+                                    Boolean welcomePopup = "true".equals(showWelcomePopup);
+                                    saveSettings(host, port, username, password, welcomePopup);
                                 }
 
                                 @JavascriptInterface
                                 public String getSettingsHTML() throws JSONException, IOException {
                                     Settings settings = getSettings();
-                                    return settings.getHost() + "," + settings.getPort() + "," + settings.getUser() + "," + settings.getPass();
+                                    return settings.getHost() + "," + settings.getPort() + "," + settings.getUser() + "," + settings.getPass() + "," + settings.getShowWelcomePopup().toString();
                                 }
 
                                 @JavascriptInterface

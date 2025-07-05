@@ -5,6 +5,15 @@ public class Settings {
     String port = "1883";
     String user = "";
     String pass = "";
+    Boolean showWelcomePopup = true;
+
+    public Boolean getShowWelcomePopup() {
+        return showWelcomePopup;
+    }
+
+    public void setShowWelcomePopup(Boolean showWelcomePopup) {
+        this.showWelcomePopup = showWelcomePopup;
+    }
 
     public String getPort() {
         return port;

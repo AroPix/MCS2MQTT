@@ -6,6 +6,7 @@ import de.aropix.mcs2mqtt.hooks.CustomHTML;
 import de.aropix.mcs2mqtt.hooks.GetRecipeHook;
 import de.aropix.mcs2mqtt.hooks.PrivacyModal;
 import de.aropix.mcs2mqtt.hooks.SerialDataHook;
+import de.aropix.mcs2mqtt.hooks.WelcomePopupHook;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -26,6 +27,7 @@ public class MainHook implements IXposedHookLoadPackage {
         PrivacyModal.initHook(lpparam.classLoader);
         GetRecipeHook.initHook(lpparam.classLoader, mqtt);
         CustomHTML.initHook(lpparam.classLoader);
+        WelcomePopupHook.initHook(lpparam.classLoader);
         //GetModeHook.initHook(lpparam.classLoader);
 
     }
