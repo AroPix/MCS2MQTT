@@ -3,8 +3,12 @@ name: Build LSPosed Module
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'app/**'
   pull_request:
     branches: [ master ]
+    paths:
+      - 'app/**'
 
 jobs:
   build:
