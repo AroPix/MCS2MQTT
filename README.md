@@ -1,6 +1,6 @@
 # Monsieur Cuisine 2 MQTT
 > [!CAUTION]
-> WIP, app needs to be compiled yourself because you need to set your own MQTT Credentials inside [SerialDataHook.java](app/src/main/java/de/aropix/mcs2mqtt/hooks/SerialDataHook.java)
+> App needs to be compiled yourself.
 
 > [!WARNING]  
 > The module hooks the Monsieur Cuisine app, do this with your own caution, I take no responsibility
@@ -31,3 +31,17 @@ Clicking the privacy policy inside the main menu will open the module app:
 - [x] Hook button inside MC-App to show the module settings
 - [ ] Add utilities inside module settings
 - [x] (WIP) Add Hook to get selected recipe
+
+## Changing settings
+
+Go to the account page first:
+
+![account.png](account.png)
+
+Then click on account settings:
+
+![account_settings.png](account_settings.png)
+
+Change the settings and click on save, then kill the Monsieur Cuisine app and start it again:
+
+![settings_overview.png](settings_overview.png)
