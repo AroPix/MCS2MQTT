@@ -1,16 +1,6 @@
 package de.aropix.mcs2mqtt.hooks;
 
-import static de.aropix.mcs2mqtt.ConfigHandler.getSettings;
-
-import android.content.Context;
-
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.lang.reflect.Method;
-
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 public class WelcomePopupHook {

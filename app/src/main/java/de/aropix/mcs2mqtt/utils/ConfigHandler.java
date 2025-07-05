@@ -1,4 +1,4 @@
-package de.aropix.mcs2mqtt;
+package de.aropix.mcs2mqtt.utils;
 
 import android.os.Environment;
 
@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+
+import de.aropix.mcs2mqtt.Settings;
 
 public class ConfigHandler {
     public static Settings getSettings() throws JSONException, IOException {

@@ -1,6 +1,6 @@
 package de.aropix.mcs2mqtt;
 
-import static de.aropix.mcs2mqtt.ConfigHandler.getSettings;
+import static de.aropix.mcs2mqtt.utils.ConfigHandler.getSettings;
 
 import de.aropix.mcs2mqtt.hooks.CustomHTML;
 import de.aropix.mcs2mqtt.hooks.GetRecipeHook;

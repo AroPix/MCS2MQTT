@@ -1,15 +1,14 @@
 package de.aropix.mcs2mqtt;
 
-import static de.aropix.mcs2mqtt.ConfigHandler.getSettings;
-import static de.aropix.mcs2mqtt.ConfigHandler.saveSettings;
+import static de.aropix.mcs2mqtt.utils.ConfigHandler.getSettings;
+import static de.aropix.mcs2mqtt.utils.ConfigHandler.saveSettings;
 
-import android.app.AndroidAppHelper;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -27,7 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import de.robv.android.xposed.XposedBridge;
+import de.aropix.mcs2mqtt.utils.AndroidBridge;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,94 +44,12 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        EditText mqttHost = findViewById(R.id.mqtt_host);
-        EditText mqttPort = findViewById(R.id.mqtt_port);
-        EditText mqttUsername = findViewById(R.id.mqtt_username);
-        EditText mqttPassword = findViewById(R.id.mqtt_password);
+        WebView webView = findViewById(R.id.settings_webview);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.addJavascriptInterface(new AndroidBridge(this, "app"), "AndroidBridge");
 
-        try {
-            settings = getSettings();
-            mqttHost.setText(settings.getHost());
-            mqttPort.setText(settings.getPort());
-            mqttUsername.setText(settings.getUser());
-            mqttPassword.setText(settings.getPass());
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-
-        Button killMCSButton = findViewById(R.id.kill_mcs_app);
-        Button startMCSButton = findViewById(R.id.start_mcs_app);
-
-        Button openFactoryMode = findViewById(R.id.open_factory_mode);
-        Button openSettings = findViewById(R.id.open_settings);
-        Button openLsposed = findViewById(R.id.open_lsposed);
-        Button openMagisk = findViewById(R.id.open_magisk);
-        Button saveButton = findViewById(R.id.save_button);
-
-        saveButton.setOnClickListener(v -> {
-            try {
-                saveSettings(mqttHost.getText().toString(), mqttPort.getText().toString(), mqttUsername.getText().toString(), mqttPassword.getText().toString(), settings.getShowWelcomePopup(), settings.getSendRecipeToMQTT());
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        openFactoryMode.setOnClickListener(v -> {
-            launchAppByPackageName(v.getContext(), "com.discovery.factorymode");
-        });
-
-        openSettings.setOnClickListener(v -> {
-            launchAppByPackageName(v.getContext(), "com.android.settings");
-        });
-
-        openLsposed.setOnClickListener(v -> {
-            launchAppByPackageName(v.getContext(), "org.lsposed.manager");
-        });
-
-        openMagisk.setOnClickListener(v -> {
-            launchAppByPackageName(v.getContext(), "com.topjohnwu.magisk");
-        });
-
-        startMCSButton.setOnClickListener(v -> {
-            launchAppByPackageName(v.getContext(), "com.tecpal.device.mc30");
-        });
-
-        killMCSButton.setOnClickListener(v -> killAppWithRoot("com.tecpal.device.mc30"));
         copySettingsHtmlToSdcard(getApplicationContext());
-    }
-
-    private void killAppWithRoot(String packageName) {
-        try {
-            Process su = Runtime.getRuntime().exec("su");
-            OutputStream os = su.getOutputStream();
-            String cmd = "am force-stop " + packageName + "\nexit\n";
-            os.write(cmd.getBytes());
-            os.flush();
-            os.close();
-            su.waitFor();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void launchAppByPackageName(Context context, String packageName) {
-        if (context == null || packageName == null || packageName.isEmpty()) {
-            return;
-        }
-        try {
-            Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-            if (intent != null) {
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            } else {
-                Log.e("LaunchApp", "Cannot find launch intent for package: " + packageName);
-            }
-        } catch (Exception e) {
-            Log.e("LaunchApp", "Failed to launch package: " + packageName, e);
-        }
+        webView.loadUrl("file:///android_asset/settings.html");
     }
 
     public static void copySettingsHtmlToSdcard(Context moduleContext) {

@@ -96,6 +96,14 @@
 
         window.onload = function () {
             try {
+                if (AndroidBridge.getEnvironment() === "module") {
+                    document.getElementById("start-mcs").style.display = "none";
+                    document.getElementById("kill-mcs").style.display = "none";
+                } else {
+                    document.getElementById("start-mcs").style.display = "block";
+                    document.getElementById("kill-mcs").style.display = "block";
+                }
+
                 settings = JSON.parse(AndroidBridge.getSettingsHTML());
 
                 document.getElementById("hostname").value = settings.host;
@@ -124,8 +132,8 @@
             AndroidBridge.pingDevice();
         }
 
-        function resetConfig() {
-            AndroidBridge.resetConfig();
+        function killApp(package_name) {
+            AndroidBridge.killAppWithRoot(package_name);
         }
 
         function launchApplication(package_name) {
@@ -136,10 +144,13 @@
 <body>
 <div class="container">
     <div class="sidebar">
+        <button onclick="location.reload()">Reload</button>
         <button onclick="launchApplication('com.android.settings')">Open Settings</button>
         <button onclick="launchApplication('org.lsposed.manager')">Open LSPosed</button>
         <button onclick="launchApplication('com.topjohnwu.magisk')">Open Magisk</button>
         <button onclick="launchApplication('com.discovery.factorymode')">Open Factory</button>
+        <button id="kill-mcs" onclick="killApp('com.tecpal.device.mc30')">Kill MC</button>
+        <button id="start-mcs" onclick="launchApplication('com.tecpal.device.mc30')">Start MC</button>
     </div>
     <div class="form-area">
         <h2>Settings</h2>
