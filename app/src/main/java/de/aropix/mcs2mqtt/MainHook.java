@@ -1,5 +1,15 @@
 package de.aropix.mcs2mqtt;
 
+import android.os.Environment;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
+import de.aropix.mcs2mqtt.hooks.CustomHTML;
 import de.aropix.mcs2mqtt.hooks.GetRecipeHook;
 import de.aropix.mcs2mqtt.hooks.PrivacyModal;
 import de.aropix.mcs2mqtt.hooks.SerialDataHook;
@@ -16,21 +26,33 @@ public class MainHook implements IXposedHookLoadPackage {
         XSharedPreferences prefs = new XSharedPreferences("de.aropix.mcs2mqtt", "mqtt_settings");
         prefs.reload();
 
-        // @todo implement retrieval of preferences
-        // Override these strings or change the default value to your liking
-        String hostname = prefs.getString("mqtt_host", "");
-        String port = prefs.getString("mqtt_port", "1883");
-        String username = prefs.getString("mqtt_username", "");
-        String password = prefs.getString("mqtt_password", "");
-        XposedBridge.log("Hostname: " + hostname + " | Username: " + username);
+        Settings settings = getSettings();
+
+        XposedBridge.log("Host: " + settings.host + " | Port: " + settings.port);
 
 
-        MqttHandler mqtt = new MqttHandler(hostname, port, username, password);
+        MqttHandler mqtt = new MqttHandler(settings.host, settings.port, settings.user, settings.pass);
 
         SerialDataHook.initHook(lpparam, mqtt);
         PrivacyModal.initHook(lpparam.classLoader);
         GetRecipeHook.initHook(lpparam.classLoader, mqtt);
+        CustomHTML.initHook(lpparam.classLoader);
         //GetModeHook.initHook(lpparam.classLoader);
 
     }
+
+    public static Settings getSettings() throws JSONException, IOException {
+        Settings settings = new Settings();
+        File file = new File(Environment.getExternalStorageDirectory(), "mcs2mqtt_config.json");
+        if (file.exists()) {
+            String jsonStr = new String(Files.readAllBytes(file.toPath()));
+            JSONObject obj = new JSONObject(jsonStr);
+            settings.setHost(obj.getString("host"));
+            settings.setPort(obj.getString("port"));
+            settings.setUser(obj.getString("user"));
+            settings.setPass(obj.getString("pass"));
+        }
+        return settings;
+    }
+
 }

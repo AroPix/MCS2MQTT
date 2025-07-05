@@ -21,44 +21,6 @@
             android:layout_marginTop="24dp"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/mqtt_host"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Host"
-                android:inputType="text" />
-
-            <EditText
-                android:id="@+id/mqtt_port"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Port"
-                android:inputType="number" />
-
-            <EditText
-                android:id="@+id/mqtt_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Username"
-                android:inputType="text" />
-
-            <EditText
-                android:id="@+id/mqtt_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Password"
-                android:inputType="textPassword" />
-
-            <Button
-                android:id="@+id/save_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Save" />
-
             <Button
                 android:id="@+id/kill_mcs_app"
                 android:layout_width="match_parent"

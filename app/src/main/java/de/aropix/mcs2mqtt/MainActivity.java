@@ -19,11 +19,6 @@ import java.io.OutputStream;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText mqttHost, mqttPort, mqttUsername, mqttPassword;
-    private Button saveButton, killMCSButton;
-
-    private static final String PREFS_NAME = "mqtt_settings";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,12 +31,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        mqttHost = findViewById(R.id.mqtt_host);
-        mqttPort = findViewById(R.id.mqtt_port);
-        mqttUsername = findViewById(R.id.mqtt_username);
-        mqttPassword = findViewById(R.id.mqtt_password);
-        saveButton = findViewById(R.id.save_button);
-        killMCSButton = findViewById(R.id.kill_mcs_app);
+        Button killMCSButton = findViewById(R.id.kill_mcs_app);
         Button startMCSButton = findViewById(R.id.start_mcs_app);
 
         Button openFactoryMode = findViewById(R.id.open_factory_mode);
@@ -69,46 +59,7 @@ public class MainActivity extends AppCompatActivity {
             launchAppByPackageName(v.getContext(), "com.tecpal.device.mc30");
         });
 
-
-        loadPreferences();
-
-        saveButton.setOnClickListener(v -> {
-            savePreferences();
-            new androidx.appcompat.app.AlertDialog.Builder(this)
-                    .setTitle("Restart Required")
-                    .setMessage("The Monsieur Cuisine app needs to be restarted for the new settings to take effect, do you want to kill the app?")
-                    .setPositiveButton("Accept", (dialog, which) -> {
-                        savePreferences();
-                        killAppWithRoot("com.tecpal.device.mc30");
-                        finishAffinity();
-                        System.exit(0);
-                    })
-                    .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
-                    .show();
-        });
-
         killMCSButton.setOnClickListener(v -> killAppWithRoot("com.tecpal.device.mc30"));
-    }
-
-    private void loadPreferences() {
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_READABLE);
-        mqttHost.setText(prefs.getString("mqtt_host", "localhost"));
-        mqttPort.setText(prefs.getString("mqtt_port", "1883"));
-        mqttUsername.setText(prefs.getString("mqtt_username", ""));
-        mqttPassword.setText(prefs.getString("mqtt_password", ""));
-    }
-
-    private void savePreferences() {
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_READABLE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("mqtt_host", mqttHost.getText().toString());
-        editor.putString("mqtt_port", mqttPort.getText().toString());
-        editor.putString("mqtt_username", mqttUsername.getText().toString());
-        editor.putString("mqtt_password", mqttPassword.getText().toString());
-        editor.apply();
-
-        File prefsFile = new File(getApplicationInfo().dataDir + "/shared_prefs/settings.xml");
-        prefsFile.setReadable(true, false);
     }
 
     private void killAppWithRoot(String packageName) {
