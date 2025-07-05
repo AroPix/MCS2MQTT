@@ -1,23 +1,17 @@
 package de.aropix.mcs2mqtt.hooks;
 
-import static de.aropix.mcs2mqtt.MainHook.getSettings;
+import static de.aropix.mcs2mqtt.ConfigHandler.getSettings;
+import static de.aropix.mcs2mqtt.ConfigHandler.saveSettings;
 
 import android.graphics.Bitmap;
-import android.os.Environment;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 
 import de.aropix.mcs2mqtt.Settings;
-import de.robv.android.xposed.IXposedHookLoadPackage;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
@@ -61,20 +55,8 @@ public class CustomHTML {
 
 
                                 @JavascriptInterface
-                                public void saveSettings(String host, String port, String username, String password) throws JSONException {
-                                    XposedBridge.log("Host: " + host + " | Port: " + port);
-                                    File file = new File(Environment.getExternalStorageDirectory(), "mcs2mqtt_config.json");
-                                    JSONObject json = new JSONObject();
-                                    json.put("host", host);
-                                    json.put("port", port);
-                                    json.put("user", username);
-                                    json.put("pass", password);
-                                    try (FileWriter writer = new FileWriter(file)) {
-                                        writer.write(json.toString());
-                                    } catch (IOException e) {
-                                        throw new RuntimeException(e);
-                                    }
-
+                                public void saveSettingsHTML(String host, String port, String username, String password) throws JSONException {
+                                    saveSettings(host, port, username, password);
                                 }
 
                                 @JavascriptInterface
@@ -89,7 +71,7 @@ public class CustomHTML {
                             }, "AndroidBridge");
 
 
-                            webView.loadUrl("file:///sdcard/Download/settings.html");
+                            webView.loadUrl("file:///sdcard/settings.html");
 
                         }
                     }
