@@ -53,10 +53,10 @@ public class MqttHandler {
                 });
     }
 
-    private void publishDiscoveryConfig(String id, String key, String unit, String deviceClass, String sensorType) {
-        this.publishDiscoveryConfig(id, key, unit, deviceClass, sensorType, "mcs/data");
+    private void publishDiscoveryConfig(String id, String name, String key, String unit, String deviceClass, String sensorType) {
+        this.publishDiscoveryConfig(id, name, key, unit, deviceClass, sensorType, "mcs/data");
     }
-    private void publishDiscoveryConfig(String id, String key, String unit, String deviceClass, String sensorType, String data_topic) {
+    private void publishDiscoveryConfig(String id, String name, String key, String unit, String deviceClass, String sensorType, String data_topic) {
         String topic = "homeassistant/" + sensorType + "/" + id + "/config";
 
         if (!Objects.equals(deviceClass, "")) {
@@ -66,7 +66,7 @@ public class MqttHandler {
         }
 
         String payload = "{"
-                + "\"name\": \"MCS " + key + "\","
+                + "\"name\": \"" + name + "\","
                 + "\"state_topic\": \""+ data_topic + "\","
                 + "\"value_template\": \"{{ value_json." + key + " }}\","
                 + "\"device_class\": " + deviceClass + ","
@@ -104,7 +104,7 @@ public class MqttHandler {
         String topic = "homeassistant/binary_sensor/mcs_running/config";
 
         String payload = "{"
-                + "\"name\": \"MCS running\","
+                + "\"name\": \"Running\","
                 + "\"state_topic\": \"mcs/data\","
                 + "\"value_template\": \"{{ 'on' if value_json.running else 'off' }}\","
                 + "\"payload_on\": \"on\","
@@ -138,12 +138,12 @@ public class MqttHandler {
 
 
     private void createConfiguration() {
-        publishDiscoveryConfig("mcs_speed", "speed", "", "", "sensor");
-        publishDiscoveryConfig("mcs_weight", "weight", "g", "weight", "sensor");
-        publishDiscoveryConfig("mcs_time", "time", "", "timestamp", "sensor");
+        publishDiscoveryConfig("mcs_speed", "Speed", "speed", "", "", "sensor");
+        publishDiscoveryConfig("mcs_weight", "Weight","weight", "g", "weight", "sensor");
+        publishDiscoveryConfig("mcs_time", "Time","time", "", "timestamp", "sensor");
         //publishDiscoveryConfig("mcs_data", "data", "", "");
-        publishDiscoveryConfig("mcs_temp", "temp", "°C", "temperature", "sensor");
-        publishDiscoveryConfig("mcs_recipe_name", "recipe_name", "", "", "sensor", "mcs/recipe");
+        publishDiscoveryConfig("mcs_temp", "Temperature", "temp", "°C", "temperature", "sensor");
+        publishDiscoveryConfig("mcs_recipe_name", "Recipe Name", "recipe_name", "", "", "sensor", "mcs/recipe");
         publishBinarySensorDiscoveryConfig();
     }
 }
