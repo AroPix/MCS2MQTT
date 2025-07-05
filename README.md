@@ -1,6 +1,6 @@
 # Monsieur Cuisine 2 MQTT
 > [!CAUTION]
-> App needs to be compiled yourself.
+> Heavily work in progress, download from Actions.
 
 > [!WARNING]  
 > The module hooks the Monsieur Cuisine app, do this with your own caution, I take no responsibility

@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import de.aropix.mcs2mqtt.MqttHandler;
 import de.aropix.mcs2mqtt.SerialData;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
