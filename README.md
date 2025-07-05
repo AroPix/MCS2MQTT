@@ -33,6 +33,7 @@ Clicking the privacy policy inside the main menu will open the module app:
 - [x] (WIP) Add Hook to get selected recipe
 
 ## Changing settings
+Either open the MCS2MQTT app on your Monsieur Cuisine or do the following:
 
 Go to the account page first:
 
