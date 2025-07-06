@@ -29,7 +29,7 @@ public class MainHook implements IXposedHookLoadPackage {
             GetRecipeHook.initHook(lpparam.classLoader, mqtt);
         }
 
-        CustomHTML.initHook(lpparam.classLoader);
+        CustomHTML.initHook(lpparam.classLoader, mqtt);
 
         if (!settings.getShowWelcomePopup())
             WelcomePopupHook.initHook(lpparam.classLoader);

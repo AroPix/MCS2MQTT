@@ -10,7 +10,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Objects;
 
+import de.aropix.mcs2mqtt.MqttHandler;
 import de.aropix.mcs2mqtt.Settings;
 
 import static de.aropix.mcs2mqtt.utils.ConfigHandler.*;
@@ -19,9 +21,11 @@ public class AndroidBridge {
 
     private final Context context;
     private String environment = "module";
+    private MqttHandler mqtt;
 
-    public AndroidBridge(Context context) {
+    public AndroidBridge(Context context, MqttHandler mqtt) {
         this.context = context;
+        this.mqtt = mqtt;
     }
 
     public AndroidBridge(Context context, String environment) {
@@ -41,6 +45,10 @@ public class AndroidBridge {
         boolean sendRecipeToMQTT = obj.optBoolean("sendRecipeToMQTT", true);
 
         saveSettings(host, port, username, password, showWelcomePopup, sendRecipeToMQTT);
+
+        if (Objects.equals(environment, "module") && mqtt != null) {
+            mqtt.reconnect(host, port, username, password);
+        }
     }
 
 
