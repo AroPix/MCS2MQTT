@@ -5,7 +5,7 @@
 > [!WARNING]  
 > The module hooks the Monsieur Cuisine app, do this with your own caution, I take no responsibility
 
-This app is a LSPosed module which hooks into the Monsieur Cuisine app of the Monsieur Cuisine Smart cooking device, adding it's own Serial data listener and then return this data to Homeassistant
+This app is a LSPosed module which hooks into the Monsieur Cuisine app of the Monsieur Cuisine Smart cooking device, adding it's own Serial data listener and then return this data to a MQTT for Homeassistant to fetch from.
 
 ## Requirements
 You need to have a rooted machine, with Magisk and the LSPosed module installed (also install the LSPosed manager, this way its easier for you to open it, this can be found inside the ZIP file of the LSPosed Zygisk module)
