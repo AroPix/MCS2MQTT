@@ -27,9 +27,9 @@ Clicking the privacy policy inside the main menu will open the module app:
 
 - [x] Implement listener for serial data
 - [x] Send data to MQTT
-- [ ] Implement saving of MQTT preferences
+- [x] Implement saving of MQTT preferences
 - [x] Hook button inside MC-App to show the module settings
-- [ ] Add utilities inside module settings
+- [x] Add utilities inside module settings
 - [x] (WIP) Add Hook to get selected recipe
 
 ## Changing settings
