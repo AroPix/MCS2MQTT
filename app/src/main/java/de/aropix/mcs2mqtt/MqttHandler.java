@@ -78,7 +78,7 @@ public class MqttHandler {
         sensors.addSensor(new Sensor("Speed", "mcs_speed", "speed"));
         sensors.addSensor(new Sensor("Time", "timestamp", "mcs_time", "", "time"));
         sensors.addSensor(new Sensor("Weight", "weight", "mcs_weight", "g", "weight"));
-        sensors.addSensor(new Sensor("Temperature", "temperature", "mcs_temp", "°C", "temperature"));
+        sensors.addSensor(new Sensor("Temperature", "temp", "mcs_temp", "°C", "temperature"));
         sensors.addSensor(new Sensor("Recipe Name", "mcs/recipe", null, "mcs_recipe_name", "", "{{ value_json.recipe_name }}"));
 
         sensors.addBinarySensor(new BinarySensor("Running", "mcs/data", "running", "mcs_running", "{{ 'on' if value_json.running else 'off' }}", "on", "off"));
